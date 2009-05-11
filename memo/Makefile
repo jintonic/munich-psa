@@ -8,4 +8,4 @@ pdf:
 	export TEXMFCNF=/remote/pclg-05/jingliu/usr/share/texmf/web2c
 	pdflatex -shell-escape memo
 clean:
-	rm -f *.bak *.pstex* *.aux *.toc *.log *.out *.ps
+	rm -f memo.pdf memo.dvi *.bak *.pstex* *.aux *.toc *.log *.out *.ps
