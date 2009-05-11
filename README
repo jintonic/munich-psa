@@ -8,7 +8,7 @@ things to do
   
   V use ROOT to check the geometry
   
-  * tune the generator setup in "Tl208_top10cm.mac"
+  V tune the generator setup in "Tl208_top10cm.mac"
   
   * get familiar with the data structure in the output ROOT file
     (http://www.mppmu.mpg.de/~jingliu/cgi-bin/viewvc.cgi/doc/GERDAUsersGuide/)
