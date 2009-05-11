@@ -1,6 +1,4 @@
-\usepackage{geometry}
-
-%\usepackage[reals]{layout} %provide \layout macro to show current page layout
+\usepackage[reals]{layout} %provide \layout macro to show current page layout
 
 \usepackage{cite}
 
@@ -20,7 +18,6 @@
 \lstloadlanguages{sh,bash,csh,[GNU]C++,[gnu]make,SQL}
 
 \usepackage{graphicx}
-%\usepackage{subfigure}
 \usepackage{wrapfig}
 
 \usepackage{amsmath}            % more evironment
@@ -34,7 +31,7 @@
 \pdfadjustspacing=1 %force pdfLaTeX to use the same spacing as LaTeX
 \else
 \usepackage[usenames,dvips]{color}
-\usepackage[ps2pdf]{hyperref}
+%\usepackage[ps2pdf]{hyperref} % cannot be used together with slides
 \fi
 
 % Alter some LaTeX defaults for better treatment of floats: See p.105 % of "TeX Unbound" for suggested values. See pp. 199-200 of Lamport's % "LaTeX" book for details.
