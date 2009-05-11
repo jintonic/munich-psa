@@ -16,7 +16,7 @@ things to do
 
   * select the DEP events. (single segment events, energy cut)
   
-  * write a script (in MaGe/sandbox) to simulate the PS of DEP events
+  V write a script (createPS.cc) to simulate the PS of DEP events
 
   * use the same way to create a background data sample (a gamma line)
 
@@ -81,3 +81,19 @@ how to use SVN (work with others)
 * before you stop working:
   $ svn st -vvv # check if you forget to check in some modifications
   $ svn ci -m "..." somethingYouForgetToCheckIn
+
+================================
+how to compile createPS.cc
+================================
+$ cd /path/to/MaGe/sandbox
+$ ln -sf /path/to/PSA/sim/createPS.cc
+$ xemacs GNUMakefile
+    find the line starting with MGTARGETS
+    change it to 
+    MGTARGETS = createPS WaveformBrowser
+    save and quit
+$ make
+$ cd /path/to/PSA/sim
+$ createPS    # create pulse shapes
+$ WaveformBrowser WFGenFromDriftOutput.root # check created ps
+
