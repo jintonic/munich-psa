@@ -4,9 +4,9 @@ things to do
 
 - simulation
 
-  * tune geometry in "siegfried.gdml" according to technical drawing
+  V tune geometry in "Siegfried.gdml" according to technical drawing
   
-  * use ROOT to check the geometry
+  V use ROOT to check the geometry
   
   * tune the generator setup in "Tl208_top10cm.mac"
   
