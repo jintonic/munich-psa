@@ -58,3 +58,12 @@ how to tune generator
 ================================
 $ MaGe Tl208_top10cm.mac
 $ /remote/gx336-01/usr/wired3-14.2b4/bin/wired G4Data0.heprep
+
+
+================================
+how to use SVN (work with others)
+================================
+
+$ svn co file:///home/pclg-13/jingliu/svn/PSA  # get a copy
+$ svn ci -m "what are the changes" changedFilesOrDirectories # commit your modification
+$ svn st -vvv # check status
