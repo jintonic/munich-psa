@@ -97,3 +97,11 @@ $ cd /path/to/PSA/sim
 $ createPS    # create pulse shapes
 $ WaveformBrowser WFGenFromDriftOutput.root # check created ps
 
+==================================================
+how to convert Gerda PS file to Majorana PS file
+==================================================
+$ cd /path/to/PSA/dat/converter
+$ make
+$ ./g2m input.root
+$ mv wfcollectioin.root ../outputName.root
+
