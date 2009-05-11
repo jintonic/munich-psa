@@ -1,0 +1,46 @@
+/MG/manager/mglog routine
+
+/MG/processes/realm BBdecay
+/MG/processes/useNoHadPhysics true
+
+/MG/geometry/GDML/sourceFile siegfried.gdml
+
+/MG/eventaction/Crystal/save hits
+/MG/eventaction/rootfilename Tl208_top10cm.root
+/MG/eventaction/reportingfrequency 1000
+
+/run/initialize
+
+
+/MG/generator/select SPS
+/gps/particle gamma
+/gps/position 76 0.0 0.0 mm  # should be 10 cm above vacuum can
+/gps/energy 2.6 keV
+# shoot to negative z: numbers need to be figure out
+/gps/ang/type beam1d
+/gps/ang/sigma_r 20 deg
+/gps/ang/rot1 0 1 0
+/gps/ang/rot2 1 0 0
+
+#/vis/open OGLIX
+#/vis/scene/create
+#/vis/scene/add/trajectories
+#/vis/viewer/set/viewpointVector 0 -1 0
+#/vis/drawVolume
+
+/vis/open ATree
+/vis/scene/create
+/vis/ASCIITree/verbose 1
+/vis/drawTree
+
+/vis/open HepRepFile
+/vis/drawVolume
+#/vis/scene/add/axes 0 0 0 1 m
+/vis/scene/add/trajectories
+/vis/viewer/flush
+
+/MG/geometry/OverlapVerbosity true
+/MG/geometry/CheckOverlaps
+
+#/tracking/verbose 1
+/run/beamOn 20

@@ -1,0 +1,60 @@
+================================
+things to do
+================================
+
+- simulation
+
+  * tune geometry in "siegfried.gdml" according to technical drawing
+  
+  * use ROOT to check the geometry
+  
+  * tune the generator setup in "Tl208_top10cm.mac"
+  
+  * get familiar with the data structure in the output ROOT file
+
+  * select the DEP events.
+  
+  * write a script (in MaGe/sandbox) to simulate the PS of DEP events
+
+  * use the same way to create a background data sample (a gamma line)
+
+- data
+
+  * find out the data
+
+  * select the DEP events
+
+  * convert the selected events from Gerda format to Majorana format
+
+  * do the same thing for a background data sample (a gamma line nearby)
+
+- compare
+
+  * learn how to use NN
+
+  * train NN
+
+  * create some distributions to compare
+    
+    o risetime
+    
+    o NN output
+
+  * draw some conclusion
+
+- memo
+
+  * document every step
+
+================================
+how to use drawgdml.C
+================================
+$ root
+root[] .x drawgdml.C("siegfried.gdml")
+
+
+================================
+how to tune generator
+================================
+$ MaGe Tl208_top10cm.mac
+$ /remote/gx336-01/usr/wired3-14.2b4/bin/wired G4Data0.heprep

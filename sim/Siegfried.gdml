@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<gdml xmlns:gdml="http://cern.ch/2001/Schemas/GDML" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:noNamespaceSchemaLocation="/remote/gx336-01/usr/gdml-2.10.0/GDMLSchema/gdml.xsd" >
+
+  <define>
+  </define>
+
+  <materials>
+    <material Z="7" formula=" " name="Vacuum" >
+      <D value="1e-10" />
+      <atom value="14.0007" />
+    </material>
+    <material name="AluminumAlloy" Z="13">
+      <D value="2.70"/>
+      <atom value="26.9815386"/>
+    </material>
+    <material Z="32" formula=" " name="NaturalGe" >
+      <D value="5.32" />
+      <atom value="72.6503" />
+    </material>
+  </materials>
+
+  <solids>
+    <tube name="sCrystal" z="70" rmax="37.5" rmin="6" lunit="mm" startphi="0" deltaphi="360" aunit="degree" />
+    <tube name="sDeadLayer" z="70" rmax="37.5" rmin="5" lunit="mm" startphi="0" deltaphi="360" aunit="degree" />
+    <tube name="sVacuumCan" z="2" rmax="40.5" rmin="0" lunit="mm" startphi="0" deltaphi="360" aunit="degree" />
+    <tube name="sWorld" z="100" rmax="50" rmin="0" lunit="mm" startphi="0" deltaphi="360" aunit="degree" />
+  </solids>
+
+  <structure>
+    <volume name="Sensitive_Siegfried" >
+      <materialref ref="NaturalGe" />
+      <solidref ref="sCrystal" />
+    </volume>
+
+    <volume name="Siegfried" >
+      <materialref ref="NaturalGe" />
+      <solidref ref="sDeadLayer" />
+      <physvol>
+	<volumeref ref="Sensitive_Siegfried" />
+	<position name="pActive" unit="mm" x="0" y="0" z="0" />
+      </physvol>   
+    </volume>
+
+    <volume name="VacuumCan" >
+      <materialref ref="AluminumAlloy" />
+      <solidref ref="sVacuumCan" />
+    </volume>
+
+    <volume name="World" >
+      <materialref ref="Vacuum" />
+      <solidref ref="sWorld" />
+      <physvol>
+	<volumeref ref="Siegfried" />
+	<position name="pCrystal" unit="mm" x="0" y="0" z="0" />
+	</physvol>     
+	<physvol>
+	<volumeref ref="VacuumCan" />
+	<position name="pVacuumCan" unit="mm" x="0" y="0" z="40" />
+      </physvol>
+    </volume>
+  </structure>
+
+  <setup name="Default" version="1.0" >
+    <world ref="World" />
+  </setup>
+
+</gdml>
