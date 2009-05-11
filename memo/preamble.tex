@@ -1,0 +1,67 @@
+\usepackage[landscape]{geometry}
+
+%\usepackage[reals]{layout} %provide \layout macro to show current page layout
+
+\usepackage{cite}
+
+\usepackage{listings}
+\lstset{ 
+  language=C++,
+  morekeywords={Float_t, Int_t, Double_t, Bool_t},
+  frame=tbrl,
+  frameround=tttt,
+  showspaces=false,
+  showtabs=false,
+  basicstyle=\footnotesize,
+% backgroundcolor=\color{Gray},
+% fillcolor=\color{Gray},
+  extendedchars=true
+}            
+\lstloadlanguages{sh,bash,csh,[GNU]C++,[gnu]make,SQL}
+
+\usepackage{graphicx}
+%\usepackage{subfigure}
+\usepackage{wrapfig}
+
+\usepackage{amsmath}            % more evironment
+\usepackage{amssymb}            % more symbol
+
+\usepackage{ifpdf}
+\ifpdf
+\usepackage{epstopdf} % must be put after graphicx
+\usepackage[usenames,dvipsnames]{color}
+\usepackage[pdftex,bookmarks=true]{hyperref}
+\pdfadjustspacing=1 %force pdfLaTeX to use the same spacing as LaTeX
+\else
+\usepackage[usenames,dvips]{color}
+\usepackage[ps2pdf]{hyperref}
+\fi
+
+% Alter some LaTeX defaults for better treatment of floats: See p.105 % of "TeX Unbound" for suggested values. See pp. 199-200 of Lamport's % "LaTeX" book for details.
+
+% General parameters, for ALL pages:
+\renewcommand{\topfraction}{0.9} % max fraction of floats at top
+\renewcommand{\bottomfraction}{0.9} % max fraction of floats at bottom
+
+% Parameters for TEXT pages (not float pages):
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4} % 2 may work better
+\renewcommand{\textfraction}{0.1} % allow minimal text w. figs
+
+% Parameters for FLOAT pages (not text pages):
+\renewcommand{\floatpagefraction}{0.7}	% require fuller float pages
+% N.B.: floatpagefraction MUST be less than topfraction !!
+
+% remember to use [htp] or [htpb] for placement
+%\pagestyle{headings}
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers.
+\usepackage{lineno}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "memo"
+%%% End: 
