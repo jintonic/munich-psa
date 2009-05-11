@@ -3,7 +3,7 @@
 /MG/processes/realm BBdecay
 /MG/processes/useNoHadPhysics true
 
-/MG/geometry/GDML/sourceFile siegfried.gdml
+/MG/geometry/GDML/sourceFile Siegfried.gdml
 
 /MG/eventaction/Crystal/save hits
 /MG/eventaction/rootfilename Tl208_top10cm.root
@@ -14,13 +14,13 @@
 
 /MG/generator/select SPS
 /gps/particle gamma
-/gps/position 76 0.0 0.0 mm  # should be 10 cm above vacuum can
+/gps/position 0.0 0.0 183.0 mm  # should be 10 cm above vacuum can
 /gps/energy 2.6 keV
-# shoot to negative z: numbers need to be figure out
 /gps/ang/type beam1d
-/gps/ang/sigma_r 20 deg
-/gps/ang/rot1 0 1 0
-/gps/ang/rot2 1 0 0
+/gps/ang/sigma_r 15 deg 
+# shoot to negative z: numbers like this
+/gps/ang/rot1 1 0 0
+/gps/ang/rot2 0 1 0
 
 #/vis/open OGLIX
 #/vis/scene/create
