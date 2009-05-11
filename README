@@ -67,4 +67,4 @@ how to use SVN (work with others)
 $ svn co file:///home/pclg-13/jingliu/svn/PSA  # get a copy
 $ svn ci -m "what are the changes" changedFilesOrDirectories # commit your modification
 $ svn st -vvv # check status
-
+$ svn up  # update the current directory
