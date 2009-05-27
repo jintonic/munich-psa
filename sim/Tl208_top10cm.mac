@@ -14,8 +14,8 @@
 
 /MG/generator/select SPS
 /gps/particle gamma
-/gps/position 0.0 0.0 183.0 mm  # should be 10 cm above vacuum can
-/gps/energy 2.6 keV
+/gps/energy 2.6 MeV
+/gps/position 0.0 0.0 63.0 mm  # should be 10 cm above vacuum can
 /gps/ang/type beam1d
 /gps/ang/sigma_r 15 deg 
 # shoot to negative z: numbers like this
@@ -33,14 +33,14 @@
 /vis/ASCIITree/verbose 1
 /vis/drawTree
 
-/vis/open HepRepFile
-/vis/drawVolume
-#/vis/scene/add/axes 0 0 0 1 m
-/vis/scene/add/trajectories
-/vis/viewer/flush
+#/vis/open HepRepFile
+#/vis/drawVolume
+##/vis/scene/add/axes 0 0 0 1 m
+#/vis/scene/add/trajectories
+#/vis/viewer/flush
 
 /MG/geometry/OverlapVerbosity true
 /MG/geometry/CheckOverlaps
 
 #/tracking/verbose 1
-/run/beamOn 20
+/run/beamOn 200000
