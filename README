@@ -10,11 +10,11 @@ things to do
   
   V tune the generator setup in "Tl208_top10cm.mac"
   
-  * get familiar with the data structure in the output ROOT file
+  V get familiar with the data structure in the output ROOT file
     (http://www.mppmu.mpg.de/~jingliu/cgi-bin/viewvc.cgi/doc/GERDAUsersGuide/)
     (chapter I/O scheme -> GEOutputCrystal)
 
-  * select the DEP events. (single segment events, energy cut)
+  V select the DEP events. (single segment events, energy cut)
   
   V write a script (createPS.cc) to simulate the PS of DEP events
 
