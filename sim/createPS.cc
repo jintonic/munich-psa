@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
 
    cout<<"Setup Crystal Fields"<<endl;
    MGSORCrystalFields* fields = new MGSORCrystalFields(crystal);
-   fields->SetFileName("/remote/gx336-01/dlenz/MediumRootFile"); //for sI and Susie
+   fields->SetFileName("/home/pclg-09/vauth/work/PSA/sim/3000VFieldSI"); //created with TestSOREField (with "SetGrid(60,180,70)")
    fields->LoadFields();
    cout<<"Setup Crystal Fields - DONE\n"<<endl;
 
