@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
       //cout<<"\tNhits = "<<Nhits<<endl;
       CHits.Reset();
       for (int i=0; i<Nhits; i++) {
-         if (hitSegmentID[i]==8)
+	//if (hitSegmentID[i]==8)
             CHits.AddCrystalHit(
                   hitX[i]*CLHEP::cm,
                   hitY[i]*CLHEP::cm,
