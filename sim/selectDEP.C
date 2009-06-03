@@ -16,13 +16,18 @@ void selectDEP(const char* filename)
 
 // --- read in contents of the rootfile
    TFile *_file0 = TFile::Open(filename);
-  
+
+   TTree *oldtree = (TTree*) _file0->Get("fTree");
+   
    Float_t segEnergy[4][20];
    fTree->SetBranchAddress("segEnergy",segEnergy);
 
    Int_t Neve=fTree->GetEntries();
    cout<<" total entries = "<<Neve<<endl;
 
+   //Create a new file + a clone of old tree in new file
+   TFile *newfile = new TFile("singleDEP.root","recreate");
+   TTree *newtree = oldtree->CloneTree(0);
    
 // --- loop over all segments to find single segment events
    Int_t NsingleSeg=0;
@@ -30,7 +35,7 @@ void selectDEP(const char* filename)
 
    for (Int_t i=0; i<Neve; i++) {
      if (i%10000==0) cout<<" now event "<<i<<endl;
-     fTree->GetEntry(i);
+     oldtree->GetEntry(i);
      
      Int_t Nseg=0;
      Int_t crystalID=1;  // (only one crystal simulated)
@@ -45,8 +50,9 @@ void selectDEP(const char* filename)
        NsingleSeg++;     
        singleSeg->Fill(segEnergy[crystalID][0]);
        if(segEnergy[crystalID][0]>1577&&segEnergy[crystalID][0]<1579){
-	 DEPsingle->Fill(segEnergy[crystalID][0]);
-	 NDEPsingle +=1;
+       newtree->Fill();
+       DEPsingle->Fill(segEnergy[crystalID][0]);
+       NDEPsingle +=1;
        }
      }
    }
@@ -55,12 +61,16 @@ void selectDEP(const char* filename)
    cout<<"Number of single segment events: "<<NsingleSeg<<endl;
    cout<<"Number of DEP events: "<<NDEPsingle<<endl;
 
+   newtree->Print();
+   newtree->AutoSave();
+   //   delete oldfile;
+   delete newfile;
 
 // --- save histogram with DEP events
-   TFile* f1 = new TFile("sim_DEP.root","recreate");
-    f1->cd();
-    //    singleSeg->Write();
-    DEPsingle->Write();
-    f1->Close();
+    TFile* f1 = new TFile("single_histo.root","recreate");
+     f1->cd();
+     //    singleSeg->Write();
+     DEPsingle->Write();
+     f1->Close();
 
 }
