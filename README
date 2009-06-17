@@ -22,11 +22,11 @@ things to do
 
 - data
 
-  * find out the data
+  V find out the data
 
-  * select the DEP events
+  V select the DEP events
 
-  * convert the selected events from Gerda format to Majorana format
+  ? convert the selected events from Gerda format to Majorana format
 
   * do the same thing for a background data sample (a gamma line nearby)
 
@@ -103,5 +103,5 @@ how to convert Gerda PS file to Majorana PS file
 $ cd /path/to/PSA/dat/converter
 $ make
 $ ./g2m input.root
-$ mv wfcollectioin.root ../outputName.root
+$ mv wfcollection.root ../outputName.root
 
