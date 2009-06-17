@@ -71,11 +71,11 @@ int main(int argc, char* argv[])
             MGTWaveform(wfdata, length, 75*CLHEP::MHz, 0.0*CLHEP::ns, MGWaveform::kCharge, icha);
       }
       wfTree->Fill();
-      if (i%1000==0) wfTree->Write("kOverwrite");
+      if (i%1000==0) wfTree->Write("",TObject::kOverwrite);
       wfClonesArray->Delete();
    }
 
-   wfTree->Write("kOverwrite");
+   wfTree->Write("",TObject::kOverwrite);
    foutput->Close();//wfTree also deleted.
 
    delete foutput;
