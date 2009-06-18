@@ -18,7 +18,7 @@ things to do
   
   V write a script (createPS.cc) to simulate the PS of DEP events
 
-  * use the same way to create a background data sample (a gamma line)
+  V use the same way to create a background data sample (a gamma line)
 
 - data
 
@@ -26,9 +26,9 @@ things to do
 
   V select the DEP events
 
-  ? convert the selected events from Gerda format to Majorana format
+  V convert the selected events from Gerda format to Majorana format
 
-  * do the same thing for a background data sample (a gamma line nearby)
+  V do the same thing for a background data sample (a gamma line nearby)
 
 - compare
 
