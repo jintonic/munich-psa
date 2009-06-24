@@ -5,8 +5,9 @@
 \begin{slide}
 \begin{center}
 \textcolor{blue}{Memo of DEP events PS analysis}\\
-Annika Vauth\footnote{mailto:vauth@mppmu.mpg.de},
-Jing Liu\footnote{mailto:jingliu@mppmu.mpg.de}
+Jing Liu\footnote{mailto:jingliu@mppmu.mpg.de},
+Annika Vauth\footnote{mailto:vauth@mppmu.mpg.de}
+
 \end{center}
 
 \end{slide}
@@ -22,7 +23,7 @@ Jing Liu\footnote{mailto:jingliu@mppmu.mpg.de}
 \item Simulated gamma with 2.6 MeV originating 10 cm above vacuum can
 
 \item Selected the DEP events (single segment events,
-	\\ energy cut 1577 $<$ Core Energy $<$ 1579)
+	\\ energy cut 1577 keV $<$ core energy $<$ 1579 keV)
 
 \item Simulated the pulse shape of the selected DEP events
 
@@ -32,7 +33,7 @@ Jing Liu\footnote{mailto:jingliu@mppmu.mpg.de}
 
 \begin{slide}
 
-\textbf{Data:}
+\textbf{Signal>}
 
 \begin{itemize}
 
@@ -41,9 +42,39 @@ Jing Liu\footnote{mailto:jingliu@mppmu.mpg.de}
 	\\ Gamma line @ 2614.5 keV
 
 \item Selected the DEP events (single segment events,
-	\\ energy cut 1588.5 $<$ Core Energy $<$ 1596.5)
+	\\ energy cut 1588.5 keV $<$ core energy $<$ 1596.5 keV)
 
 \item (Converted selected events from Gerda to Majorana format)
+
+\end{itemize}
+
+\end{slide}
+
+\begin{slide}
+
+\textbf{Background Data Samples:}
+
+\begin{itemize}
+
+\item K-40 gamma line @ 1460 keV
+
+\item Data \& simulation: Selected single segment events,
+	\\ energy cut 1456.8 keV  $<$ core energy $<$ 1464.8 keV
+
+\end{itemize}
+
+\end{slide}
+
+\begin{slide}
+
+\textbf{Neural Network:}
+
+\begin{itemize}
+
+\item First prepare a training file \\
+	
+     (merge core waveform info from DEP and background events, \\
+     add ``type'' branch that says if event is signal or background).
 
 \end{itemize}
 
