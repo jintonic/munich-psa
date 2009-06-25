@@ -3,6 +3,7 @@
 
 #include <TFile.h>
 #include <TTree.h>
+#include <TChain.h>
 #include <TClonesArray.h>
 #include <TH1D.h>
 #include <iostream>
@@ -19,15 +20,21 @@ int main()
 {
 
   const char* sigFilename = "../dat/WF_DEP_fromData.root";
-  const char* bgFilename = "../dat/WF_K40_fromData.root";
+  const char* bgFilename1 = "../dat/WF_K40_fromData.root";
+  const char* bgFilename2 = "../dat/WF_Bi212_fromData.root";
 
   // read in the trees from the input files
   TFile *sigFile = TFile::Open(sigFilename);
   TTree *sigTree = (TTree *) sigFile->Get("wfTree");
   //   cout << endl << "The signal wfTree: " << endl;
   //   sigTree->Print();
-  TFile *bgFile = TFile::Open(bgFilename);
-  TTree *bgTree = (TTree *) bgFile->Get("wfTree");
+
+  TChain *bgTree = new TChain("wfTree", "wfTree");
+  bgTree->AddFile(bgFilename1);
+  bgTree->AddFile(bgFilename2);
+
+   //  TFile *bgFile = TFile::Open(bgFilename);
+   //  TTree *bgTree = (TTree *) bgFile->Get("wfTree");
   
   // create the new tree, 
   TFile *newdatafile = new TFile("DataSample.root","recreate");

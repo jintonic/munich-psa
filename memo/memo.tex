@@ -41,8 +41,9 @@ Annika Vauth\footnote{mailto:vauth@mppmu.mpg.de}
 	\\ (/.hb/raidg01/Siegfried\_I/Run\_01/Th228\_pulseshape\_core)
 	\\ Gamma line @ 2614.5 keV
 
-\item Selected the DEP events (single segment events,
-	\\ energy cut 1588.5 keV $<$ core energy $<$ 1596.5 keV)
+\item Selected the DEP events: single segment events,
+	\\ energy cut 1588.5 keV $<$ core energy $<$ 1596.5 keV,\\
+	gives 1170 events from data (1115 from simulation).
 
 \item (Converted selected events from Gerda to Majorana format)
 
@@ -56,10 +57,17 @@ Annika Vauth\footnote{mailto:vauth@mppmu.mpg.de}
 
 \begin{itemize}
 
-\item K-40 gamma line @ 1460 keV
+\item K-40 gamma line @ 1460.8 keV \\
+	$ $ \\
+	Data \& simulation: Selected single segment events,
+	\\ energy cut 1456.8 keV  $<$ core energy $<$ 1464.8 keV,\\
+	gives 432 events from data (926 from simulation).
 
-\item Data \& simulation: Selected single segment events,
-	\\ energy cut 1456.8 keV  $<$ core energy $<$ 1464.8 keV
+\item Bi-212 gamma line @ 1620.5 keV (more events than K40) \\
+	$ $ \\
+	Data \& simulation: Selected single segment events,
+	\\ energy cut 1616.5 $<$ core energy $<$ 1624.5 keV,\\
+	gives 760 events from data (845 from simulation).
 
 \end{itemize}
 
@@ -71,7 +79,7 @@ Annika Vauth\footnote{mailto:vauth@mppmu.mpg.de}
 
 \begin{itemize}
 
-\item First prepare a training file \\
+\item First prepare file with a training tree \\
 	
      (merge core waveform info from DEP and background events, \\
      add ``type'' branch that says if event is signal or background).

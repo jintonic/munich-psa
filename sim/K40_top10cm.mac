@@ -1,0 +1,46 @@
+/MG/manager/mglog routine
+
+/MG/processes/realm BBdecay
+/MG/processes/useNoHadPhysics true
+
+/MG/geometry/GDML/sourceFile Siegfried.gdml
+
+/MG/eventaction/Crystal/save hits
+/MG/eventaction/rootfilename K40_top10cm.root
+/MG/eventaction/reportingfrequency 1000
+
+/run/initialize
+
+
+/MG/generator/select SPS
+/gps/particle gamma
+/gps/energy 1.46 MeV   # K40 background line
+/gps/position 0.0 0.0 63.0 mm  # should be 10 cm above vacuum can
+/gps/ang/type beam1d
+/gps/ang/sigma_r 15 deg 
+# shoot to negative z: numbers like this
+/gps/ang/rot1 1 0 0
+/gps/ang/rot2 0 1 0
+
+#/vis/open OGLIX
+#/vis/scene/create
+#/vis/scene/add/trajectories
+#/vis/viewer/set/viewpointVector 0 -1 0
+#/vis/drawVolume
+
+/vis/open ATree
+/vis/scene/create
+/vis/ASCIITree/verbose 1
+/vis/drawTree
+
+#/vis/open HepRepFile
+#/vis/drawVolume
+##/vis/scene/add/axes 0 0 0 1 m
+#/vis/scene/add/trajectories
+#/vis/viewer/flush
+
+/MG/geometry/OverlapVerbosity true
+/MG/geometry/CheckOverlaps
+
+#/tracking/verbose 1
+/run/beamOn 20000
