@@ -89,7 +89,7 @@ void network(const char* filename, Int_t ntrain){
    TH1F *sig = new TH1F("sigh", "NN output", 150, -1.0, 2.0);
    bg->SetDirectory(0);
    sig->SetDirectory(0);
-   Double_t paramsBG[300]
+   Double_t paramsBG[300];
    Double_t paramsSig[300];
    for (i = 0; i < trainingTree->GetEntries(); i++) {
       trainingTree->GetEntry(i);
