@@ -58,7 +58,6 @@ void network(const char* filename, Int_t ntrain){
   
   TMultiLayerPerceptron *networkPSA = new TMultiLayerPerceptron(layoutChar, "Weight", trainingTree,"Entry$%2","(Entry$+1)%2");
                                                                  // Use half of the events as training and half as test dataset
-
   //a smaller test network
   Int_t testnum = 50; Int_t testfrom = 111;  TString *testLayout = new TString();   
   for (Int_t b = testfrom; b < testfrom + testnum ; b++) {    testLayout->Append(branchName[b]);     
@@ -68,70 +67,62 @@ void network(const char* filename, Int_t ntrain){
 
   cout << "Done." << endl;
 
-  const char* method;
   // set learning method 
+  const char* method;
   //  networkPSA ->  SetLearningMethod(TMultiLayerPerceptron::kStochastic);  method = " kStochstic";              //works sometimes (?), very slow
-  //  networkPSA ->  SetLearningMethod(TMultiLayerPerceptron::kBatch);   method = " kBatch";                      //seems to work
+    networkPSA ->  SetLearningMethod(TMultiLayerPerceptron::kBatch);   method = " kBatch";                      //seems to work
   //  networkPSA ->  SetLearningMethod(TMultiLayerPerceptron::kSteepestDescent);   method = " kDescent";          //seems to work
   //  networkPSA ->  SetLearningMethod(TMultiLayerPerceptron::kRibierePolak); method = " kRibierePolak";           //seems to work
-    networkPSA ->  SetLearningMethod(TMultiLayerPerceptron::kFletcherReeves);  method = " kFletcherReeves";     //seems to work, kind of slow
+  //  networkPSA ->  SetLearningMethod(TMultiLayerPerceptron::kFletcherReeves);  method = " kFletcherReeves";     //seems to work, slower than the 3 above
   //  networkPSA ->  SetLearningMethod(TMultiLayerPerceptron::kBFGS); method = " kBFGS";                          //does NOT work (only sometimes..)
   cout << endl << "--- Using learning method" << method << ". ---" << endl << endl;
 
-
-  networkPSA->Train(ntrain, "text,graph,update=10"); //full output every 10 epochs
+  // create a canvas that will collect info about the NN
+  TCanvas* NNcanvas = new TCanvas("NNcanvas","Neural network",50,50,1000,750);
+  NNcanvas->Divide(2,2);
+  // shows the network structure
+  NNcanvas->cd(1); 
+  networkPSA->Draw();
+  // train the NN, plot the training progress
+  NNcanvas->cd(2);
+  networkPSA->Train(ntrain, "current,text,graph,update=5"); //full output every 5 epochs, in the current canvas and as simple text 
   networkPSA->DumpWeights("weights.txt"); 
 
 
-  // ----- Display the results
-
-  // try the direct way
-  networkPSA->DrawResult(0,"test");  
 
 
-  // Using Evaluate, get the second entries from tree (should give the test dataset) 
-  Double_t params[300];
-  TCanvas* canvas_NN = new TCanvas("canvas_NN","Histo for ->Evaluate", 150, 150, 800, 600); 
-  TH1D *hist_NN = new TH1D("hist_NN","NN output", 200, 0.0, 2.);
-  Double_t NNoutput;  
-  // loop over events 
-  for (Int_t ientries = 0; ientries < nentries/2; ientries++)
-    {
-      trainingTree -> GetEntry(2*ientries+1); 
-      // evaluate NN 
-      for (b = 0; b < 300 ; b++){
-	params[b] = wfBin[b];
-	if(b%100==50 && ientries%250==0) cout << "entry " << 2*ientries+1 << ": params[" << b<< "] = " << params[b] << endl;
-      }
-      NNoutput = networkPSA -> Evaluate(0, params); 
-      if (ientries%250==0) cout << "NNOutput from Evalutate: "<<NNoutput << " Network Result(0): " << networkPSA->Result(ientries,0) <<  endl;
-      hist_NN -> Fill(NNoutput);
-    }
-  canvas_NN -> cd(); 
-  hist_NN -> SetStats(kFALSE); 
-  hist_NN -> Draw(); 
+// ----- Display the results
   
+  // draw the network result for the test sample the direct way
+  NNcanvas->cd(3);
+  networkPSA->DrawResult(0,"test,nocanv");   
 
-  // other try to display the results
-  TCanvas* canvas_tree = new TCanvas("canvas_tree","Read from tree, evaluate", 300, 300, 800, 600); 
-  canvas_tree->cd();
-  TH1D *bg = new TH1D("bg","NN output", 200, 0.0, 2.0);
-  TH1D *sig = new TH1D("sig","NN output", 200, 0.0, 2.0);
+   // draws the resulting network (signal and background) like in the mlp tutorial example
+  NNcanvas->cd(4);
+  TH1D *bg = new TH1D("bg","NN output", 200, -40.0, 40.0);
+  TH1D *sig = new TH1D("sig","NN output", 200, -40.0, 40.0);
+  Double_t params[300];
   for (i = 0; i < trainingTree->GetEntries(); i++) {
     trainingTree->GetEntry(i);
     if (type==0){
       for (b = 0; b < 300 ; b++){
-   	params[b] = wfBin[b];
+   	params[b] = wfBin[b];	
+	// if(b%100==50 && ientries%500==0) cout << "entry " << i << ": params[" << b<< "] = " << params[b] << endl;
       }
       bg->Fill(networkPSA->Evaluate(0, params));
+      // if (i%500==0) cout << "At tree entry "<< i <<". bg has now " << bg->GetEntries() << " entries. " <<  endl;
     }
     else {
       for (b = 0; b < 300 ; b++){
    	params[b] = wfBin[b];
+	// if(b%100==50 && ientries%500==0) cout << "entry " << i << ": params[" << b<< "] = " << params[b] << endl;
       }
          sig->Fill(networkPSA->Evaluate(0,params));
+	 // if (i%500==0) cout << "At tree entry "<< i <<". sig has now " << sig->GetEntries() << " entries. " <<  endl;
     }
   }  
+  cout << "After the for loop, sig has " << sig->GetEntries() << " entries and bg has "<< bg->GetEntries() << " ." << endl;
+
   bg->SetLineColor(kBlue);  bg->SetFillStyle(3008);   bg->SetFillColor(kBlue);
   sig->SetLineColor(kRed);  sig->SetFillStyle(3003); sig->SetFillColor(kRed);
   bg->SetStats(0);    bg->Draw();
@@ -141,7 +132,27 @@ void network(const char* filename, Int_t ntrain){
   legend->Draw();
 
 
-  delete trainingFile;
-  delete friendFile;
+// Maybe use TMLPAnalyzer to show more about the network
+//   TCanvas* ana_canvas = new TCanvas("ana_canvas","Network analysis");
+//   ana_canvas->Divide(2,2);
+//    TMLPAnalyzer ana(networkPSA);
+//    // Initialisation
+//    ana.GatherInformations();
+//    // output to the console
+//    ana.CheckNetwork();
+//    // shows how each variable influences the network
+//    ana_canvas->cd(1);
+//    ana.DrawDInputs();
+//    // shows the network structure
+//    ana_canvas->cd(2);
+//    networkPSA->Draw();
+//    //draws the network results
+//    ana_canvas->cd(3);
+//    networkPSA->DrawResult(0,"test,nocanv");   
+//    // draws the resulting network (signal and background)
+//    ana_canvas->cd(4);
+//    ana.DrawNetwork(0,"type==1","type==0");
+
+   cout << endl;
 } // end of "void network"
 
