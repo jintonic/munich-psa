@@ -70,15 +70,15 @@ void network(const char* filename, Int_t ntrain){
   // set learning method 
   const char* method;
   //  networkPSA ->  SetLearningMethod(TMultiLayerPerceptron::kStochastic);  method = " kStochstic";              //works sometimes (?), very slow
-    networkPSA ->  SetLearningMethod(TMultiLayerPerceptron::kBatch);   method = " kBatch";                      //seems to work
-  //  networkPSA ->  SetLearningMethod(TMultiLayerPerceptron::kSteepestDescent);   method = " kDescent";          //seems to work
+  //  networkPSA ->  SetLearningMethod(TMultiLayerPerceptron::kBatch);   method = " kBatch";                      //seems to work
+    networkPSA ->  SetLearningMethod(TMultiLayerPerceptron::kSteepestDescent);   method = " kDescent";          //seems to work
   //  networkPSA ->  SetLearningMethod(TMultiLayerPerceptron::kRibierePolak); method = " kRibierePolak";           //seems to work
   //  networkPSA ->  SetLearningMethod(TMultiLayerPerceptron::kFletcherReeves);  method = " kFletcherReeves";     //seems to work, slower than the 3 above
   //  networkPSA ->  SetLearningMethod(TMultiLayerPerceptron::kBFGS); method = " kBFGS";                          //does NOT work (only sometimes..)
   cout << endl << "--- Using learning method" << method << ". ---" << endl << endl;
 
   // create a canvas that will collect info about the NN
-  TCanvas* NNcanvas = new TCanvas("NNcanvas","Neural network",50,50,1000,750);
+  TCanvas* NNcanvas = new TCanvas("NNcanvas","Neural network",20,20,1200,900);
   NNcanvas->Divide(2,2);
   // shows the network structure
   NNcanvas->cd(1); 
@@ -86,21 +86,24 @@ void network(const char* filename, Int_t ntrain){
   // train the NN, plot the training progress
   NNcanvas->cd(2);
   networkPSA->Train(ntrain, "current,text,graph,update=5"); //full output every 5 epochs, in the current canvas and as simple text 
-  networkPSA->DumpWeights("weights.txt"); 
+  networkPSA->DumpWeights("weights.txt");    //  weights can be saved to a file (DumpWeights) and then reloaded (LoadWeights) to a new compatible network
 
 
 
 
 // ----- Display the results
   
-  // draw the network result for the test sample the direct way
+  // Draw the network result for the test sample the "standard" way
+  // will produce an histogram with the output for the two datasets. Arguments are index of the output neuron (currently there is only one (type)) 
+  // and a string telling which dataset to use (train or test) and whether a X-Y comparison plot should be drawn (comp).
+  // To draw the histogramm in the active canvas instead of creating a new one, use nocanv.
   NNcanvas->cd(3);
   networkPSA->DrawResult(0,"test,nocanv");   
-
-   // draws the resulting network (signal and background) like in the mlp tutorial example
+  
+   // draws the resulting network (signal and background) like in the mlp tutorial example from root.cern.ch
   NNcanvas->cd(4);
-  TH1D *bg = new TH1D("bg","NN output", 200, -40.0, 40.0);
-  TH1D *sig = new TH1D("sig","NN output", 200, -40.0, 40.0);
+  TH1D *bg = new TH1D("bg","NN output", 200, -10.0, 10.0);
+  TH1D *sig = new TH1D("sig","NN output", 200, -10.0, 10.0);
   Double_t params[300];
   for (i = 0; i < trainingTree->GetEntries(); i++) {
     trainingTree->GetEntry(i);
@@ -131,27 +134,31 @@ void network(const char* filename, Int_t ntrain){
   legend->AddEntry(bg, "Background");    legend->AddEntry(sig, "Signal");
   legend->Draw();
 
+  NNcanvas->Print("NNcanvas.eps","Neural Network: structure, training and results");
 
-// Maybe use TMLPAnalyzer to show more about the network
-//   TCanvas* ana_canvas = new TCanvas("ana_canvas","Network analysis");
-//   ana_canvas->Divide(2,2);
+
+
+// Maybe use TMLPAnalyzer to show more about the network ?
+
+//    TCanvas* ana_canvas = new TCanvas("ana_canvas","Network analysis",100,100,800,800);
+//    ana_canvas->Divide(1,2);
 //    TMLPAnalyzer ana(networkPSA);
+
 //    // Initialisation
 //    ana.GatherInformations();
-//    // output to the console
+
+//    // Gives some information about the network in the terminal.
 //    ana.CheckNetwork();
-//    // shows how each variable influences the network
+
+//    // Draws the distribution (on the test sample) of the impact on the network output of a small variation of each input
 //    ana_canvas->cd(1);
 //    ana.DrawDInputs();
-//    // shows the network structure
+
+//    //  Draw the distribution of the neural network (using ith neuron),  Parameters are (Int_t neuron, const char* signal, const char* bg)
+//    //  Two distributions are drawn, for events passing respectively the "signal"  and "background" cuts. Only the test sample is used.
 //    ana_canvas->cd(2);
-//    networkPSA->Draw();
-//    //draws the network results
-//    ana_canvas->cd(3);
-//    networkPSA->DrawResult(0,"test,nocanv");   
-//    // draws the resulting network (signal and background)
-//    ana_canvas->cd(4);
-//    ana.DrawNetwork(0,"type==1","type==0");
+//    ana.DrawNetwork(0,"type==1","type==0");   // (Int_t neuron, const char* signal, const char* bg)
+
 
    cout << endl;
 } // end of "void network"
