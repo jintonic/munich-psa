@@ -22,10 +22,11 @@ Annika Vauth\footnote{mailto:vauth@mppmu.mpg.de}
 
 \item Simulated gamma with 2.6 MeV originating 10 cm above vacuum can
 
-\item Selected the DEP events (single segment events,
-	\\ energy cut 1577 keV $<$ core energy $<$ 1579 keV)
+\item Background sample: simulated gamma line with 1620.5 keV (Bi-212)
 
-\item Simulated the pulse shape of the selected DEP events
+\item Selected single segment events
+
+\item Simulated the pulse shape of the selected events
 
 \end{itemize}
 
@@ -33,19 +34,15 @@ Annika Vauth\footnote{mailto:vauth@mppmu.mpg.de}
 
 \begin{slide}
 
-\textbf{Signal>}
+\textbf{Experiment Data}
 
 \begin{itemize}
 
 \item Used Siegfried I data from run with Th228 source on top
 	\\ (/.hb/raidg01/Siegfried\_I/Run\_01/Th228\_pulseshape\_core)
-	\\ Gamma line @ 2614.5 keV
 
-\item Selected the DEP events: single segment events,
-	\\ energy cut 1588.5 keV $<$ core energy $<$ 1596.5 keV,\\
-	gives 1170 events from data (1115 from simulation).
-
-\item (Converted selected events from Gerda to Majorana format)
+\item Gamma line @ 2614.5 keV , \\
+	\\ Background Bi-212 gamma line @ 1620.5 keV.
 
 \end{itemize}
 
@@ -53,23 +50,39 @@ Annika Vauth\footnote{mailto:vauth@mppmu.mpg.de}
 
 \begin{slide}
 
-\textbf{Background Data Samples:}
+\textbf{Signal Data Sample:}
 
 \begin{itemize}
 
-\item K-40 gamma line @ 1460.8 keV \\
-	$ $ \\
-	Data \& simulation: Selected single segment events,
-	\\ energy cut 1456.8 keV  $<$ core energy $<$ 1464.8 keV,\\
-	gives 432 events from data (926 from simulation).
-
-\item Bi-212 gamma line @ 1620.5 keV (more events than K40) \\
-	$ $ \\
-	Data \& simulation: Selected single segment events,
-	\\ energy cut 1616.5 $<$ core energy $<$ 1624.5 keV,\\
-	gives 760 events from data (845 from simulation).
+\item Selected the DEP events: single segment events,
+	fitted gauss peak, with mean = 1592.7 and sigma = 2.36 keV, 
+	\\ made cut for 1589.36 keV $<$ core Energy $<$ 1594.09 keV
+	\\ (gives 892 events from data)
 
 \end{itemize}
+
+\begin{center}
+\includegraphics[width=0.6\textheight]{eps-images/DEPsingle.eps}
+\end{center}
+
+\end{slide}
+
+\begin{slide}
+
+\textbf{Background Data Sample:}
+
+\begin{itemize}
+
+\item Bi-212 gamma line (1620.5 keV), select single segment events \\
+	fitt gauss peak, mean = 1620.3 and sigma = 2.45 keV, 
+	\\ made cut for 1617.87 keV $<$ core Energy $<$ 1622.78 keV
+	\\ (gives 595 events from data)
+
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=0.6\textheight]{eps-images/BGsingle.eps}
+\end{center}
 
 \end{slide}
 
@@ -80,13 +93,31 @@ Annika Vauth\footnote{mailto:vauth@mppmu.mpg.de}
 \begin{itemize}
 
 \item First prepare file with a training tree \\
-	
-     (merge core waveform info from DEP and background events, \\
-     add ``type'' branch that says if event is signal or background).
+     (core waveform info from DEP and background, add ``type'' branch (``signal or background'').
+
+\item Setup a network (TMultiLayerPerceptron)  \\
+      waveform-bins as input, hidden neurons, type as output.
+
+\item Train the network. Tried different learning methods: \\
+  kBatch, kDescent, kRibierePolak, kFletcherReeves (a lot slower), 
+  \\ kStochstic (works sometimes ?!), kBFGS (works sometimes..?!)
 
 \end{itemize}
 
 \end{slide}
+
+%\begin{slide}
+%\includegraphics[width=0.6\textwidth,angle=270]{eps-images/NNtraining.eps}
+%\end{slide}
+
+%\begin{slide}
+%\includegraphics[width=0.6\textwidth,angle=270]{eps-images/NNresult.eps}
+%\end{slide}
+
+%\begin{slide}
+%\includegraphics[width=0.6\textwidth,angle=270]{eps-images/NNmlp.eps}
+%\end{slide}
+
 
 \end{document}
 

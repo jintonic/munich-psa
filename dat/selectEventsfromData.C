@@ -7,8 +7,6 @@
 void selectEventsfromData()
 {
 // ---- setup the histograms and the canvas
-   if (gDirectory->Get("DEPsingle")) delete DEPsingle;
-   if (gDirectory->Get("BGsingle")) delete BGsingle;
    TCanvas *canvasDEP = new TCanvas("canvasDEP","DEP line",800,600);
      canvasDEP->SetFillColor(0);
      canvasDEP->SetBorderMode(0);
@@ -36,8 +34,8 @@ void selectEventsfromData()
    cout<<" total entries = "<<Neve<<endl;
 
    //Create output files + a clone of old tree in new files
-   TFile *DEPfile = new TFile("/remote/pclg-09/vauth/tmp/singeSite.root","recreate");
-   TTree *Singletree = chain.CloneTree(0);
+   TFile *SingleFile = new TFile("/remote/pclg-09/vauth/tmp/singleSite.root","recreate");
+   TTree *SingleTree = chain.CloneTree(0);
 
    TFile *DEPfile = new TFile("singleDEP.root","recreate");
    TTree *DEPtree = chain.CloneTree(0);
@@ -64,22 +62,20 @@ void selectEventsfromData()
      
      if (Nseg==1) {
        NsingleSeg++;
-      
-      Singletree->Fill();
+       SingleTree->Fill();
 
-       // fill histogram to find the FWHM of DEP peak
+       // fill histogram that is used to find the FWHM of DEP peak
        if(Cha_Energy[0]>1582&&Cha_Energy[0]<1602){
 	 DEPsingleHisto->Fill(Cha_Energy[0]);
        }
 
-       // fill histogram to find the FWHM of BG peak
+       // fill histogram that is used to find the FWHM of BG peak
        if(Cha_Energy[0]>1610&&Cha_Energy[0]<1630){
 	 BGsingleHisto->Fill(Cha_Energy[0]);
        }
-
      }
    }
-   cout << "NsingleSeg is " << NsingleSeg << ", Singletree->GetEntries() gives " << Singletree->GetEntries() << endl;
+   cout << "NsingleSeg is " << NsingleSeg << ", SingleTree->GetEntries() gives " << SingleTree->GetEntries() << endl;
 
    // draw the events close to DEP, fit peak
    canvasDEP->cd();
@@ -121,7 +117,7 @@ void selectEventsfromData()
 
    // fill the trees
    for (Int_t i = 0; i < NsingleSeg ; i ++){
-     Singletree -> GetEntry(i);
+     SingleTree -> GetEntry(i);
 
      if( Cha_Energy[0] >= (meanDEP - sigmaDEP)  && Cha_Energy[0] <= (meanDEP + sigmaDEP) ){
        DEPtree->Fill();
