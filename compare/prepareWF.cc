@@ -3,7 +3,7 @@
 // Set switch to chose if data or simulation
 // to compile: cd MaGe/sandbox , ln -s , ...
 
-#include "/home/pclg-09/vauth/work/PSA/sim/prepareWF.h"
+#include "/home/pclg-09/vauth/work/PSA/compare/prepareWF.h"
 
 int main(int argc, char *argv[])
 {    
