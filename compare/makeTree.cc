@@ -17,7 +17,7 @@
 using namespace std;
 
 
-void FillMyTree(TTree *inputTree, TClonesArray* inputPSArray, const Int_t type, TTree* dataSample, Double_t* wfBin);
+void FillMyTree(TTree *inputTree, TClonesArray* inputPSArray, const Int_t isSignal, TTree* dataSample, Double_t* wfBin);
 
 
 int main(int argc, char *argv[])
@@ -81,7 +81,9 @@ int main(int argc, char *argv[])
 
 
 // --- read the waveforms and write to new tree
-  FillMyTree(sigTree, sigPSArray, 1, dataSample, wfBin);  
+  type = 1;
+  FillMyTree(sigTree, sigPSArray, type, dataSample, wfBin);  
+  type = 0;
   FillMyTree(bgTree, bgPSArray, 0, dataSample, wfBin);  
 
   dataSample->AutoSave();
@@ -107,7 +109,7 @@ void FillMyTree(TTree *inputTree, TClonesArray* inputPSArray, const Int_t type, 
 
   for (Int_t i=0; i<inputEntries;i++) {
     inputTree->GetEntry(i);
-    if (i%100==0) cout<<" now event "<<i<<endl;    
+    if (i%100==0) cout << " now event " << i << "." << endl;    
     Int_t Nwfs = inputPSArray->GetEntries();
       if(Nwfs == 0) {
         cout<<"Error: no waveform found!"<<endl;
