@@ -55,27 +55,39 @@ void selectEventsfromData()
 
      Int_t Nseg=0;
      for (Int_t k=1; k<=18; k++) {
-       if (Cha_Energy[k]>10) {
+       if (Cha_Energy[k]>100) {
 	 Nseg += 1;
        }
      }
      
      if (Nseg==1) {
        NsingleSeg++;
-       SingleTree->Fill();
-
-       // fill histogram that is used to find the FWHM of DEP peak
-       if(Cha_Energy[0]>1582&&Cha_Energy[0]<1602){
-	 DEPsingleHisto->Fill(Cha_Energy[0]);
+       
+       //check that segment and core energy are roughly equal !
+       Int_t test = 0;
+       for (Int_t k=1; k<=18; k++) {
+	 if ( abs( Cha_Energy[k]-Cha_Energy[0] )<5) {
+	   test += 1;
+	 }
        }
+       if (test ==1 ){
+	 SingleTree->Fill();
+       
+	 // fill histogram that is used to find the FWHM of DEP peak
+	 if(Cha_Energy[0]>1582&&Cha_Energy[0]<1602){
+	   DEPsingleHisto->Fill(Cha_Energy[0]);
+	 }
 
-       // fill histogram that is used to find the FWHM of BG peak
-       if(Cha_Energy[0]>1610&&Cha_Energy[0]<1630){
-	 BGsingleHisto->Fill(Cha_Energy[0]);
+	 // fill histogram that is used to find the FWHM of BG peak
+	 if(Cha_Energy[0]>1610&&Cha_Energy[0]<1630){
+	   BGsingleHisto->Fill(Cha_Energy[0]);
+	 }       
        }
      }
+
    }
-   cout << "NsingleSeg is " << NsingleSeg << ", SingleTree->GetEntries() gives " << SingleTree->GetEntries() << endl;
+    
+   cout << "NsingleSeg is " << NsingleSeg << ", applied abs( Cha_Energy[k]-Cha_Energy[0] )<5), so that SingleTree->GetEntries() gives " << SingleTree->GetEntries() << endl;
 
    // draw the events close to DEP, fit peak
    canvasDEP->cd();
@@ -93,7 +105,7 @@ void selectEventsfromData()
    DEPsingleHisto->Fit("fitDEP","R");
    Float_t meanDEP = fitDEP->GetParameter(1);
    Float_t sigmaDEP = fitDEP->GetParameter(2);
-   cout << "Making DEP cut for " << meanDEP - sigmaDEP << " <  Energy < " << meanDEP + sigmaDEP << endl;
+   cout << "Making DEP cut for " << meanDEP - (1.175*sigmaDEP) << " <  Energy < " << meanDEP + (1.175*sigmaDEP) << endl;
    canvasDEP->SaveAs("DEPsingle.eps");
 
    // select the Bi212 line (1620.5 keV): fit peak
@@ -111,7 +123,7 @@ void selectEventsfromData()
    BGsingleHisto->Fit("fitBG","R");
    Float_t meanBG = fitBG->GetParameter(1);
    Float_t sigmaBG = fitBG->GetParameter(2);
-   cout << "Making BG cut for " << meanBG - sigmaBG << " < Energy < " << meanBG + sigmaBG << endl;
+   cout << "Making BG cut for " << meanBG - (1.175*sigmaBG) << " < Energy < " << meanBG + (1.175*sigmaBG) << endl;
    canvasBG->SaveAs("BGsingle.eps");
       
 
@@ -119,12 +131,12 @@ void selectEventsfromData()
    for (Int_t i = 0; i < NsingleSeg ; i ++){
      SingleTree -> GetEntry(i);
 
-     if( Cha_Energy[0] >= (meanDEP - sigmaDEP)  && Cha_Energy[0] <= (meanDEP + sigmaDEP) ){
+     if( Cha_Energy[0] >= (meanDEP - (1.175*sigmaDEP))  && Cha_Energy[0] <= (meanDEP + (1.175*sigmaDEP)) ){
        DEPtree->Fill();
        NDEPsingle +=1;
      }
 
-     if( Cha_Energy[0] >= (meanBG - sigmaBG)  && Cha_Energy[0] <= (meanBG + sigmaBG) ){
+     if( Cha_Energy[0] >= (meanBG - (1.175*sigmaBG))  && Cha_Energy[0] <= (meanBG + (1.175*sigmaBG)) ){
        BGtree->Fill();
        NBGsingle +=1;
      }
